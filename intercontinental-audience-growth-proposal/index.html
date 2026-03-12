@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audience Growth Engine - IHG Hotels Australia</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAABILAAASCwAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AFo51QBaOdUAWjnVAFo51QBaOdUAWjnVP1o51b9aOdUEWjnVAFo51QBaOdWjWjnVlVo51QBaOdUAWjnVAFo51QBaOdUAWjnVAFo51QBaOdUAWjnVAFo51ZZaOdX/WjnVNFo51QBaOdUDWjnV4lo51elaOdUFWjnVAFo51QBaOdUAWjnVAFo51QBaOdUAWjnVAFo51RFaOdXoWjnV/1o51YVaOdUAWjnVIlo51fdaOdX/WjnVRFo51QBaOdUAWjnVAFo51QBaOdUAWjnVAFo51QBaOdVuWjnV/1o51dhaOdXDWjnVAFo51W9aOdX/WjnVyVo51bdaOdUDWjnVAFo51QBaOdUAWjnVAFo51QBaOdUIWjnV3Fo51f1aOdU7WjnVulo51SJaOdXLWjnV9Vo51TFaOdXzWjnVTlo51QBaOdUAWjnVAFo51QBaOdUAWjnVLVo51f9aOdXfWjnVAFo51YBaOdWiWjnV+1o51bVaOdUAWjnVrlo51cBaOdUAWjnVAFo51QBaOdUAWjnVAFo51XRaOdX/WjnVq1o51QBaOdU5WjnV/1o51f9aOdVjWjnVAFo51T5aOdXuWjnVEFo51QBaOdUAWjnVAFo51QxaOdXfWjnV/Fo51URaOdUAWjnVDlo51ehaOdX/WjnVKVo51QBaOdUAWjnVxFo51YNaOdUAWjnVAFo51QBaOdWSWjnV/1o51fhaOdUcWjnVAFo51QBaOdWhWjnV7Fo51QZaOdUAWjnVA1o51ataOdX/WjnVPlo51ZNaOdW1WjnVy1o51aRaOdWyWjnVZ1o51QBaOdUAWjnVOVo51WpaOdUAWjnVAFo51SxaOdWuWjnVq1o51ZdaOdXNWjnVc1o51QRaOdUAWjnVAFo51QFaOdUAWjnVAFo51QBaOdUAWjnVAFo51QBaOdUBWjnVAFo51QBaOdUA////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A//8AAP//AAD4zwAA+IcAAPCHAADwgwAA4AMAAOITAADiEQAAwhkAAMMQAAADMAAAG/cAAP//AAD//wAA//8AAA==">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --mandarin: #EA4648;
+            --mandarin-hover: #D63A3C;
+            --mandarin-bg: rgba(234,70,72,0.06);
+            --mandarin-glow: rgba(234,70,72,0.18);
+            --navy: #070909;
+            --warm-grey: #E0DEDC;
+            --warm-grey-medium: #C8C5C2;
+            --white: #FFFFFF;
+            --off-white: #F7F6F5;
+            --text-secondary: #4A4A4A;
+            --text-muted: #888888;
+            --r-sm: 6px;
+            --r-md: 10px;
+            --r-lg: 14px;
+            --r-xl: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--off-white);
+            color: var(--navy);
+            min-height: 100vh;
+        }
+
+        .proposal {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+        }
+
+        /* Left Side - Preview */
+        .preview-side {
+            background: var(--navy);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--mandarin);
+            margin-bottom: 16px;
+        }
+
+        .preview-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .preview-url {
+            font-size: 12px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 24px;
+        }
+
+        .preview-url a {
+            color: rgba(255,255,255,0.35);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .preview-url a:hover {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .creative-stack {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .creative-card {
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+
+        .creative-card img {
+            width: 100%;
+            display: block;
+        }
+
+        .creative-card-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            color: rgba(255,255,255,0.45);
+            padding: 10px 0 6px;
+        }
+
+        .result-badge {
+            margin-top: 24px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--r-lg);
+            padding: 20px 24px;
+        }
+
+        .result-badge-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 10px;
+        }
+
+        .result-stat {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--mandarin);
+            line-height: 1.15;
+        }
+
+        .result-stat span {
+            font-size: 13px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.5);
+            display: block;
+            margin-top: 8px;
+        }
+
+        /* Right Side - Details */
+        .details-side {
+            padding: 60px 56px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--white);
+        }
+
+        .prepared-for {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+
+        .prepared-for strong {
+            color: var(--navy);
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 800;
+            line-height: 1.12;
+            margin-bottom: 8px;
+            color: var(--navy);
+        }
+
+        .subtitle {
+            font-size: 17px;
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-bottom: 36px;
+            line-height: 1.7;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--warm-grey);
+            margin-bottom: 32px;
+        }
+
+        .brief {
+            margin-bottom: 36px;
+        }
+
+        .brief h3 {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--mandarin);
+            margin-bottom: 14px;
+        }
+
+        .brief p {
+            font-size: 15px;
+            line-height: 1.65;
+            color: var(--text-secondary);
+        }
+
+        .schedule {
+            margin-bottom: 36px;
+        }
+
+        .schedule h3 {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--mandarin);
+            margin-bottom: 14px;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--warm-grey);
+        }
+
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-period {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            width: 100px;
+            flex-shrink: 0;
+        }
+
+        .schedule-property {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .line-items {
+            margin-bottom: 36px;
+        }
+
+        .line-items h3 {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--mandarin);
+            margin-bottom: 14px;
+        }
+
+        .line-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--warm-grey);
+        }
+
+        .line-item:last-child {
+            border-bottom: none;
+        }
+
+        .line-item-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .line-item-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+            font-weight: 400;
+        }
+
+        .line-item-price {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--navy);
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--navy);
+            color: var(--white);
+            padding: 20px 24px;
+            border-radius: var(--r-lg);
+            margin-bottom: 12px;
+        }
+
+        .total-label {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .total-price {
+            font-size: 28px;
+            font-weight: 900;
+        }
+
+        .total-price sup {
+            font-size: 13px;
+            font-weight: 400;
+            opacity: 0.5;
+            vertical-align: super;
+        }
+
+        .recurring-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--off-white);
+            border: 1px solid var(--warm-grey);
+            padding: 16px 24px;
+            border-radius: var(--r-lg);
+            margin-bottom: 36px;
+        }
+
+        .recurring-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .recurring-label span {
+            display: block;
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .recurring-price {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--navy);
+        }
+
+        .recurring-price sup {
+            font-size: 11px;
+            font-weight: 400;
+            opacity: 0.5;
+            vertical-align: super;
+        }
+
+        .note {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.65;
+            font-weight: 400;
+            margin-bottom: 12px;
+        }
+
+        .note a {
+            color: var(--mandarin);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .note a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: auto;
+            padding-top: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer svg {
+            height: 18px;
+            width: auto;
+        }
+
+        .footer span {
+            font-size: 12px;
+            color: var(--warm-grey-medium);
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    <div class="proposal">
+
+        <!-- Left Side -->
+        <div class="preview-side">
+            <div class="preview-label">6-month pilot programme</div>
+            <div class="preview-title">Campaign creative examples</div>
+            <div class="preview-url"><a href="https://intercontinental-sydney-competition-vivid.lovable.app/" target="_blank">View mock landing page →</a></div>
+
+            <div class="creative-stack">
+                <div>
+                    <div class="creative-card-label">InterContinental Sydney · Vivid</div>
+                    <div class="creative-card">
+                        <img src="ihg_campaign_creative.png" alt="InterContinental Sydney - Vivid Sydney Harbour Experience campaign creative" />
+                    </div>
+                </div>
+                <div>
+                    <div class="creative-card-label">InterContinental Sanctuary Cove</div>
+                    <div class="creative-card">
+                        <img src="ihg_campaign_creative_2.png" alt="InterContinental Sanctuary Cove - Where Summer Lingers campaign creative" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="result-badge">
+                <div class="result-badge-label">Expected portfolio outcome</div>
+                <div class="result-stat">
+                    32k – 80k
+                    <span>Qualified travel subscribers across the three properties per year</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side -->
+        <div class="details-side">
+            <div class="prepared-for">Prepared for <strong>Hannah & Mark</strong> · March 2026</div>
+
+            <h1>Audience Growth Engine</h1>
+            <div class="subtitle">IHG Hotels Australia — 6-Month Pilot</div>
+
+            <div class="divider"></div>
+
+            <div class="brief">
+                <h3>Opportunity</h3>
+                <p>
+                    Build a first-party database of high-intent luxury travellers across all three IHG Australian properties — reducing reliance on OTAs and creating a direct channel to drive bookings, dining reservations, and seasonal packages. Each property runs one experience-led competition via Meta Ads, staggered so only one brand is in market at a time.
+                </p>
+            </div>
+
+            <div class="schedule">
+                <h3>Pilot schedule</h3>
+                <div class="schedule-item">
+                    <div class="schedule-period">Apr – May</div>
+                    <div class="schedule-property">InterContinental Sydney · Vivid</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-period">Jun – Jul</div>
+                    <div class="schedule-property">Hayman Island · Winter Escape</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-period">Aug – Sep</div>
+                    <div class="schedule-property">Sanctuary Cove · Resort Escape</div>
+                </div>
+            </div>
+
+            <div class="line-items">
+                <h3>What's included</h3>
+                <div class="line-item">
+                    <div>
+                        <div class="line-item-name">Landing page framework</div>
+                        <div class="line-item-desc">Built once, reskinned per property & campaign</div>
+                    </div>
+                    <div class="line-item-price">Included</div>
+                </div>
+                <div class="line-item">
+                    <div>
+                        <div class="line-item-name">Campaign creative & copy</div>
+                        <div class="line-item-desc">Paid assets, ad copy, email design & copy</div>
+                    </div>
+                    <div class="line-item-price">Included</div>
+                </div>
+                <div class="line-item">
+                    <div>
+                        <div class="line-item-name">Meta Ads management</div>
+                        <div class="line-item-desc">Campaign setup, optimisation & reporting</div>
+                    </div>
+                    <div class="line-item-price">Included</div>
+                </div>
+                <div class="line-item">
+                    <div>
+                        <div class="line-item-name">Viral mechanics</div>
+                        <div class="line-item-desc">Refer-a-friend integration to amplify reach</div>
+                    </div>
+                    <div class="line-item-price">Included</div>
+                </div>
+                <div class="line-item">
+                    <div>
+                        <div class="line-item-name">Transactional emails</div>
+                        <div class="line-item-desc">Entry confirmations & winner announcements via viral integration or Revenate</div>
+                    </div>
+                    <div class="line-item-price">Not included</div>
+                </div>
+            </div>
+
+            <div class="total-row">
+                <div class="total-label">One-off setup</div>
+                <div class="total-price">$8,500<sup>+GST</sup></div>
+            </div>
+
+            <div class="recurring-row">
+                <div class="recurring-label">
+                    Ongoing per property
+                    <span>Billed per two-month campaign period</span>
+                </div>
+                <div class="recurring-price">$2,000<sup>/mo +GST</sup></div>
+            </div>
+
+            <div class="note">
+                Ad spend scoped separately per property ($10k–$20k per campaign). Viral Loops licence passed through to IHG. All emails built and deployed by IHG — Webprofits provides design and copy.
+            </div>
+            <div class="note">
+                <a href="https://www.notion.so/webprofits/IHG-Hotels-Australia-Audience-Growth-Engine-32035e677f078074902efaeeb3bf4a01" target="_blank">View the detailed proposal →</a>
+            </div>
+
+            <div class="footer">
+                <svg viewBox="0 0 200 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="0" y="22" font-family="Poppins, sans-serif" font-size="18" font-weight="800" fill="#EA4648">webprofits</text>
+                </svg>
+                <span>webprofits.com.au</span>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

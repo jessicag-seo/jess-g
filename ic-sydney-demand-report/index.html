@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>InterContinental Sydney - Search demand seasonality</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root {
+  --bg-base: #FFFFFF; --bg-alt: #F7F6F5; --bg-card: #FFFFFF; --bg-card-hover: #FAFAF9;
+  --border: #E0DEDC; --border-med: #C8C5C2;
+  --text-primary: #070909; --text-secondary: #4A4A4A; --text-muted: #888888;
+  --wp: #EA4648; --wp-soft: #D63A3C; --wp-bg: rgba(234,70,72,0.06); --wp-glow: rgba(234,70,72,0.18);
+  --green: #047857; --green-bg: rgba(4,120,87,0.07);
+  --amber: #B45309; --amber-bg: rgba(180,83,9,0.07);
+  --blue: #1D4ED8; --blue-bg: rgba(29,78,216,0.07);
+  --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px; --r-full: 999px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg-base);color:var(--text-primary);font-family:'Poppins',system-ui,sans-serif;font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+.label{font-size:12px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--wp);display:block;margin-bottom:12px}
+.section-title{font-size:clamp(26px,4vw,40px);font-weight:800;line-height:1.12;color:var(--text-primary);margin-bottom:14px}
+.section-sub{font-size:16px;color:var(--text-secondary);max-width:720px;margin-bottom:40px;line-height:1.7}
+p{margin-bottom:16px;color:var(--text-secondary);line-height:1.7}
+strong{color:var(--text-primary);font-weight:700}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%}
+.nav-links{display:flex;gap:2px;overflow-x:auto;flex:1;justify-content:center}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{font-size:12.5px;font-weight:500;color:var(--text-secondary);text-decoration:none;padding:5px 12px;border-radius:var(--r-sm);white-space:nowrap;transition:color .15s,background .15s}
+.nav-links a:hover{color:var(--text-primary);background:var(--bg-alt)}
+.nav-badge{flex-shrink:0;font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.06em;display:flex;align-items:center;gap:12px}
+.btn-download{display:inline-flex;align-items:center;gap:6px;background:var(--wp);color:#fff;border:none;cursor:pointer;font-family:'Poppins',system-ui,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.04em;padding:7px 16px;border-radius:var(--r-full);transition:background .15s,transform .1s;white-space:nowrap}
+.btn-download:hover{background:var(--wp-soft);transform:translateY(-1px)}
+.btn-download svg{width:13px;height:13px;flex-shrink:0}
+
+section{padding:72px 0 80px}
+section+section{border-top:1px solid var(--border)}
+section:nth-child(even){background:var(--bg-alt)}
+
+#hero{padding:80px 0 72px;background:var(--bg-base)}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:var(--r-full);font-size:12px;color:var(--text-muted);padding:5px 16px;margin-bottom:28px;background:var(--bg-alt);font-weight:600}
+.hero-badge span{width:6px;height:6px;border-radius:50%;background:var(--wp);display:block}
+.hero-heading{font-size:clamp(36px,6vw,56px);font-weight:900;line-height:1.05;letter-spacing:-0.03em;color:var(--text-primary);margin-bottom:20px;max-width:800px}
+.hero-heading em{font-style:normal;color:var(--wp)}
+.hero-sub{font-size:clamp(16px,1.8vw,18px);color:var(--text-secondary);font-weight:400;max-width:640px;margin-bottom:40px;line-height:1.7}
+.hero-meta{display:flex;gap:32px;flex-wrap:wrap}
+.hero-meta-item{font-size:14px;color:var(--text-muted)}
+.hero-meta-item strong{display:block;font-size:15px;color:var(--text-primary);font-weight:700}
+
+.strategy-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:28px 0}
+.strategy-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:40px 24px 22px;position:relative}
+section:nth-child(even) .strategy-card{background:var(--bg-base)}
+.strategy-card-tag{position:absolute;top:16px;right:16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:3px 10px;border-radius:var(--r-full)}
+.strategy-card-tag.active{background:var(--green-bg);color:var(--green);border:1px solid rgba(4,120,87,0.2)}
+.strategy-card-tag.paused{background:var(--wp-bg);color:var(--wp);border:1px solid rgba(234,70,72,0.2)}
+.strategy-card-tag.test{background:var(--blue-bg);color:var(--blue);border:1px solid rgba(29,78,216,0.2)}
+.strategy-card-tag.opportunity{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(180,83,9,0.2)}
+.strategy-card h4{font-size:15px;font-weight:800;color:var(--text-primary);margin-bottom:8px;line-height:1.3}
+.strategy-card p{font-size:13px;color:var(--text-secondary);line-height:1.6;margin:0}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:28px 0}
+.kpi-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px 24px;text-align:center}
+section:nth-child(even) .kpi-card{background:var(--bg-base)}
+.kpi-card .value{font-size:28px;font-weight:900;color:var(--text-primary);line-height:1}
+.kpi-card .kpi-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-top:6px}
+.kpi-card .change{font-size:13px;font-weight:700;margin-top:4px}
+.kpi-card .change.up{color:var(--green)}
+.kpi-card .change.flat{color:var(--amber)}
+
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:28px 0}
+.chart-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px}
+section:nth-child(even) .chart-card{background:var(--bg-base)}
+.chart-card.full{grid-column:1/-1}
+.chart-card h4{font-size:16px;font-weight:800;color:var(--text-primary);margin-bottom:4px}
+.chart-card .chart-sub{font-size:13px;color:var(--text-muted);margin-bottom:16px}
+.chart-wrap{position:relative;height:320px}
+.chart-wrap.tall{height:400px}
+
+.table-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin:0}
+section:nth-child(even) .table-card{background:var(--bg-base)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{background:var(--text-primary);color:#fff;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:14px 18px;text-align:left}
+thead th.num{text-align:right}
+tbody td{padding:12px 18px;font-size:13.5px;color:var(--text-secondary);border-bottom:1px solid var(--border);line-height:1.4}
+tbody td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:500}
+tbody tr:nth-child(even) td{background:var(--bg-alt)}
+tbody tr:last-child td{border-bottom:none}
+tbody tr.total td{font-weight:800;color:var(--text-primary);border-top:2px solid var(--wp);background:var(--wp-bg)!important}
+.heat-5{color:var(--wp)!important;font-weight:800!important}
+.heat-4{color:var(--amber)!important;font-weight:700!important}
+.heat-3{color:var(--text-primary)!important;font-weight:600!important}
+.heat-2{color:var(--text-secondary)!important}
+.heat-1{color:var(--text-muted)!important}
+
+.tab-nav{display:flex;gap:2px;flex-wrap:wrap;margin-bottom:0}
+.tab-btn{background:var(--bg-alt);border:1px solid var(--border);border-bottom:none;color:var(--text-muted);padding:8px 18px;font-family:'Poppins',system-ui,sans-serif;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;cursor:pointer;border-radius:var(--r-sm) var(--r-sm) 0 0;transition:all 0.15s}
+.tab-btn:hover{color:var(--text-primary);background:var(--bg-card-hover)}
+.tab-btn.active{background:var(--bg-card);color:var(--wp);border-color:var(--border)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+.next-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:28px 0}
+.next-card{background:var(--bg-card);border:1px solid var(--border);border-left:4px solid var(--wp);border-radius:var(--r-lg);padding:22px 24px}
+section:nth-child(even) .next-card{background:var(--bg-base)}
+.next-card .priority{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px}
+.next-card .priority.high{color:var(--wp)}
+.next-card .priority.medium{color:var(--blue)}
+.next-card h4{font-size:15px;font-weight:800;color:var(--text-primary);margin-bottom:8px}
+.next-card p{font-size:13px;color:var(--text-secondary);line-height:1.6;margin:0 0 10px}
+.next-card .meta{font-size:12px;color:var(--text-muted)}
+.next-card .meta strong{color:var(--green);font-weight:800}
+
+.context-note{background:var(--blue-bg);border:1px solid rgba(29,78,216,0.18);border-radius:var(--r-md);padding:18px 22px;margin:24px 0;font-size:15px;color:var(--text-secondary);line-height:1.65}
+.context-note strong{color:var(--blue)}
+
+.insight-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0}
+.insight-card{background:var(--bg-card);border:1px solid var(--border);border-left:4px solid var(--border-med);border-radius:var(--r-lg);padding:22px 24px}
+section:nth-child(even) .insight-card{background:var(--bg-base)}
+.insight-card h4{font-size:14px;font-weight:800;color:var(--text-primary);margin-bottom:8px}
+.insight-card p{font-size:13.5px;color:var(--text-secondary);line-height:1.6}
+.insight-card ul{margin:8px 0 0 16px;font-size:13px;color:var(--text-secondary)}
+.insight-card ul li{margin-bottom:4px}
+
+footer{background:var(--text-primary);padding:40px 0;text-align:center}
+footer p{font-size:14px;color:rgba(255,255,255,0.4);font-weight:500;margin:0}
+footer p em{font-style:italic}
+
+@media print{@page{size:A4;margin:16mm}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}nav{display:none!important}.btn-download{display:none!important}section{padding:36px 0!important;background:#fff!important}section:nth-child(even){background:#fff!important}.wrap{max-width:100%;padding:0!important}.strategy-grid,.kpi-grid,.next-grid{grid-template-columns:repeat(2,1fr)!important}.chart-row{grid-template-columns:1fr!important}.tab-nav{display:none!important}.tab-content{display:block!important;page-break-inside:avoid;margin-bottom:20px}}
+@media(max-width:1024px){.strategy-grid{grid-template-columns:1fr 1fr}.kpi-grid{grid-template-columns:repeat(3,1fr)}.next-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){section{padding:56px 0 60px}.wrap{padding:0 16px}.nav-links{display:none}.strategy-grid,.kpi-grid,.chart-row,.insight-row,.next-grid{grid-template-columns:1fr}.chart-card.full{grid-column:auto}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <svg style="height:24px;width:auto" viewBox="0 0 226 48" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#nl)"><path d="M57.9432 15.3431C55.2501 15.3431 53.475 17.9721 52.9038 21.0119L59.5958 20.827C61.9829 20.827 62.3706 20.3341 62.3706 19.5741C62.39 18.9937 62.287 18.4158 62.0683 17.8784C61.8495 17.341 61.5201 16.8564 61.1018 16.4566C60.6834 16.0568 60.1856 15.7508 59.6411 15.5589C59.0967 15.3669 58.518 15.2934 57.9432 15.3431ZM65.9003 22.3674H52.6997C52.6997 23.2506 52.5569 24.1749 52.5569 25.0992C52.5569 30.5215 55.3521 33.171 59.6366 33.171C60.8517 33.1185 62.041 32.8011 63.1224 32.2408C64.2038 31.6806 65.1516 30.8907 65.9003 29.9259C66.0431 29.6999 66.6143 30.0902 66.6143 30.768C66.6136 30.9047 66.5628 31.0364 66.4715 31.1377C65.5649 32.6141 64.3144 33.8459 62.8284 34.7262C61.3424 35.6066 59.6656 36.1092 57.9432 36.1903C56.5489 36.1508 55.1764 35.8323 53.9057 35.2532C52.635 34.6742 51.4915 33.8463 50.5419 32.8177C49.5924 31.7891 48.8557 30.5806 48.375 29.2624C47.8943 27.9443 47.6791 26.543 47.7419 25.1402C47.7419 19.2866 51.6388 13.8026 57.9432 13.8026C60.1419 13.7216 62.2866 14.4992 63.9291 15.9728C65.5717 17.4465 66.5849 19.5021 66.7572 21.7102C66.7572 22.1415 66.4103 22.3674 65.9003 22.3674Z" fill="#070909"/><path d="M80.4882 15.5892C78.1215 15.5892 75.5304 17.828 75.5304 19.4711V30.665C75.5304 32.4519 78.9988 34.5879 81.0595 34.5879C85.5889 34.5879 87.1803 29.6996 87.1803 25.0988C87.1803 19.5738 85.0176 15.5892 80.4882 15.5892ZM81.6512 36.1284C77.5706 36.1284 77.1626 34.4852 74.6123 34.4852C74.1025 34.4626 73.5982 34.5983 73.1676 34.8738C72.7369 35.1494 72.4008 35.5515 72.2048 36.0257C72.2048 36.2105 71.8783 36.3132 71.6335 36.3132C71.3886 36.3132 71.001 36.1695 71.001 35.923C71.001 34.9166 71.205 33.027 71.205 31.0347V7.45571C71.205 4.88832 70.8174 4.3543 68.5527 4.10783C68.3078 4.10783 68.165 3.86136 68.165 3.53274C68.165 3.20411 68.3078 2.85494 68.5527 2.85494C70.7258 2.418 72.8005 1.58254 74.6735 0.390241C74.7432 0.272688 74.8417 0.175095 74.9596 0.106776C75.0775 0.0384573 75.2108 0.00169616 75.3468 0C75.7344 0 76.0201 0.143771 76.0201 0.390241C75.8772 2.44416 75.6324 6.3466 75.6324 8.85238V16.1232C77.1229 14.687 79.0985 13.8724 81.1615 13.8434C82.6279 13.7467 84.0978 13.9662 85.4731 14.4873C86.8484 15.0084 88.0974 15.8191 89.1365 16.8651C90.1756 17.9112 90.9808 19.1685 91.4985 20.553C92.0161 21.9375 92.2342 23.4173 92.1381 24.8935C92.1381 30.8087 87.2823 36.19 81.7532 36.19" fill="#070909"/><path d="M106.931 16.5135C105.982 16.5428 105.054 16.7937 104.218 17.2464C103.382 17.6991 102.663 18.3412 102.116 19.122V30.9936C102.116 33.1913 104.381 34.629 106.829 34.629C111.644 34.629 113.562 30.5212 113.562 25.0989C113.562 19.6765 111.154 16.5135 106.931 16.5135ZM106.931 36.19C105.232 36.2455 103.546 35.8637 102.034 35.0809V42.5366C102.034 45.638 102.504 46.3158 105.299 46.6444C105.503 46.6444 105.686 46.932 105.686 47.3222C105.686 47.7125 105.503 48 105.299 48C103.258 48 102.177 47.7125 99.9124 47.7125C97.6477 47.7125 96.4848 48 94.4649 48C94.2813 48 94.0977 47.6714 94.0977 47.3222C94.0977 46.973 94.2813 46.6444 94.4649 46.6444C97.2601 46.3158 97.7497 45.638 97.7497 42.5366V21.0526C97.7497 18.4852 97.3621 17.9512 95.0566 17.7048C94.8525 17.7048 94.6689 17.4172 94.6689 17.068C94.6689 16.7189 94.8525 16.4929 95.0566 16.4929C97.1434 16.0515 99.1208 15.1924 100.871 13.9666C101.075 13.9666 101.218 13.5969 101.545 13.5969C101.871 13.5969 102.218 13.7818 102.218 13.9666L102.034 17.027C103.637 15.2606 105.802 14.1128 108.155 13.7818C115.031 13.7818 118.356 18.9166 118.356 25.1194C118.381 26.6142 118.1 28.0982 117.529 29.4787C116.959 30.8592 116.113 32.1067 115.043 33.1434C113.973 34.1801 112.702 34.9839 111.31 35.5045C109.918 36.0251 108.434 36.2515 106.951 36.1695" fill="#070909"/><path d="M136.249 18.5469C134.208 18.5469 134.086 17.294 132.739 17.294C132.098 17.3367 131.473 17.523 130.912 17.8392C130.351 18.1554 129.867 18.5936 129.495 19.122V30.0282C129.495 33.1297 130.515 33.7664 133.311 34.1361C133.555 34.1361 133.698 34.4236 133.698 34.8139C133.698 35.2041 133.555 35.4917 133.311 35.4917C131.27 35.4917 129.658 35.2041 127.333 35.2041C125.007 35.2041 123.925 35.4917 121.905 35.4917C121.701 35.4917 121.518 35.2041 121.518 34.8139C121.498 34.6736 121.526 34.5308 121.596 34.408C121.666 34.2852 121.775 34.1895 121.905 34.1361C124.741 33.8074 125.17 33.1707 125.17 30.0282V21.0526C125.17 18.4852 124.782 17.9512 122.477 17.7048C122.293 17.7048 122.089 17.4172 122.089 17.068C122.089 16.7189 122.293 16.4929 122.477 16.4929C124.582 16.0488 126.579 15.1902 128.353 13.9666C128.496 13.9666 128.638 13.5969 129.026 13.5969C129.414 13.5969 129.699 13.7818 129.699 13.9666L129.495 17.027C131.047 15.1951 133.238 14.0334 135.616 13.7818C136.29 13.7534 136.948 13.9907 137.451 14.4433C137.954 14.8958 138.262 15.528 138.309 16.2054C138.343 16.7851 138.147 17.3547 137.765 17.7895C137.382 18.2244 136.845 18.4893 136.269 18.5263" fill="#070909"/><path d="M151.184 15.3636C146.899 15.3636 144.859 19.7179 144.859 25.1608C144.859 30.6037 146.899 34.691 151.225 34.691C155.55 34.691 157.57 30.5831 157.57 25.1608C157.57 19.7385 155.53 15.4252 151.225 15.4252M151.225 36.2519C149.746 36.3324 148.266 36.1025 146.88 35.5769C145.493 35.0512 144.231 34.2413 143.172 33.1985C142.113 32.1557 141.281 30.9027 140.728 29.5191C140.176 28.1354 139.915 26.6513 139.963 25.1608C139.963 22.1648 141.145 19.2914 143.249 17.1729C145.354 15.0544 148.208 13.8643 151.184 13.8643C154.16 13.8643 157.014 15.0544 159.119 17.1729C161.223 19.2914 162.405 22.1648 162.405 25.1608C162.453 26.6441 162.193 28.121 161.644 29.4983C161.095 30.8755 160.268 32.1229 159.215 33.1616C158.162 34.2003 156.906 35.0076 155.528 35.5325C154.149 36.0574 152.677 36.2884 151.204 36.2109" fill="#070909"/><path d="M190.316 35.4297C188.276 35.4297 187.235 35.1421 184.929 35.1421C182.624 35.1421 181.747 35.4297 179.727 35.4297C179.482 35.4297 179.339 35.1421 179.339 34.7519C179.339 34.3616 179.482 34.0741 179.727 34.0741C182.522 33.7455 182.746 33.1088 182.746 29.9663V21.0523C182.746 18.4233 182.379 17.9509 180.114 17.7044C179.87 17.7044 179.727 17.4169 179.727 17.0677C179.727 16.7185 179.87 16.4926 180.114 16.4926C182.3 16.0638 184.38 15.2053 186.235 13.9663C186.378 13.9663 186.521 13.5966 186.909 13.5966C187.296 13.5966 187.582 13.7814 187.582 13.9663C187.378 16.0202 187.194 19.8816 187.194 22.4079V29.9663C187.194 33.1088 187.623 33.7455 190.418 34.0741C190.663 34.0741 190.805 34.3616 190.805 34.7519C190.805 35.1421 190.663 35.4297 190.418 35.4297M184.685 5.40145C182.522 5.40145 182.644 3.12161 178.727 3.12161C174.81 3.12161 173.096 5.33984 173.096 10.3925V29.9663C173.096 33.1088 173.32 33.7455 176.177 34.0741C176.36 34.0741 176.503 34.3616 176.503 34.7519C176.503 35.1421 176.36 35.4297 176.177 35.4297C174.136 35.4297 173.239 35.1421 170.913 35.1421C168.587 35.1421 167.546 35.4297 165.527 35.4297C165.282 35.4297 165.159 35.1421 165.159 34.7519C165.159 34.3616 165.282 34.0741 165.527 34.0741C168.322 33.7455 168.75 33.1088 168.75 29.9663V18.4438C168.75 18.0536 168.567 17.766 168.179 17.766H165.731C165.445 17.766 165.241 17.3963 165.241 17.1498C165.233 16.998 165.269 16.8471 165.346 16.7157C165.422 16.5844 165.534 16.4783 165.669 16.4104C166.934 16.0818 168.75 15.6505 168.75 15.0549C168.75 8.37963 173.708 0.225586 181.665 0.225586C184.399 0.225586 187.051 1.88926 187.051 3.49131C187.051 4.78528 186.235 5.42199 184.685 5.42199" fill="#070909"/><path d="M207.373 17.4788L200.191 17.294V28.9191C200.191 31.9795 201.15 33.4788 203.415 33.4788C204.669 33.5272 205.91 33.2059 206.985 32.5546C207.23 32.4108 207.556 32.8832 207.556 33.3351C207.544 33.5317 207.456 33.7158 207.312 33.8485C205.783 35.223 203.79 35.9577 201.742 35.9024C200.914 35.9518 200.085 35.8191 199.313 35.5135C198.541 35.2079 197.845 34.7367 197.272 34.1328C196.699 33.5288 196.264 32.8065 195.996 32.0161C195.729 31.2258 195.635 30.3862 195.723 29.5559V17.7869C195.731 17.7027 195.722 17.6176 195.697 17.537C195.671 17.4563 195.629 17.3819 195.574 17.3183C195.518 17.2547 195.45 17.2033 195.374 17.1673C195.298 17.1313 195.215 17.1115 195.131 17.1091H193.295C193.22 17.1015 193.147 17.0788 193.08 17.0426C193.014 17.0064 192.955 16.9572 192.908 16.898C192.86 16.8388 192.825 16.7706 192.804 16.6976C192.783 16.6245 192.776 16.548 192.785 16.4724C192.793 16.3267 192.837 16.1851 192.911 16.0599C192.986 15.9347 193.09 15.8296 193.213 15.7535C195.525 14.3123 197.507 12.3943 199.028 10.1258C199.099 10.0107 199.198 9.9161 199.316 9.85128C199.434 9.78646 199.567 9.75367 199.701 9.75611C200.048 9.75611 200.375 9.94096 200.375 10.1258L200.293 14.8909H207.373C207.76 14.8909 207.985 15.466 207.985 16.2054C207.985 16.9448 207.76 17.4994 207.373 17.4994" fill="#070909"/><path d="M218.104 36.1903C216.064 36.1903 213.534 35.3072 211.984 35.3072C211.8 33.6229 211.351 31.4458 211.127 30.1724C211.127 29.9875 211.453 29.7821 211.8 29.7821C211.939 29.766 212.079 29.7952 212.201 29.8655C212.322 29.9357 212.417 30.0433 212.473 30.1724C212.874 31.378 213.614 32.4407 214.602 33.2318C215.591 34.0229 216.786 34.5084 218.043 34.6294C218.553 34.6867 219.069 34.6289 219.553 34.4601C220.038 34.2914 220.479 34.016 220.844 33.6539C221.21 33.2919 221.491 32.8524 221.666 32.3673C221.841 31.8823 221.907 31.364 221.859 30.8502C221.859 26.1056 211.453 27.1326 211.453 20.0055C211.453 16.5138 214.983 13.8438 218.819 13.8438C220.859 13.8438 222.899 14.5215 223.96 14.5215C223.96 16.2263 224.123 17.9105 224.266 19.3688C224.266 19.5536 223.96 19.759 223.593 19.759C223.226 19.759 222.96 19.6152 222.919 19.3688C222.885 18.3424 222.47 17.3661 221.757 16.6324C221.043 15.8986 220.082 15.4606 219.063 15.4047C216.452 15.4047 215.309 16.596 215.309 18.691C215.309 23.1891 225.898 23.3945 225.898 29.2481C225.839 30.2297 225.587 31.1898 225.157 32.073C224.727 32.9561 224.128 33.745 223.394 34.3941C222.66 35.0432 221.806 35.5397 220.881 35.855C219.955 36.1704 218.977 36.2983 218.002 36.2314" fill="#070909"/><path d="M34.8266 35.6355C34.8778 35.8162 34.9533 35.9889 35.0511 36.149C35.0511 36.149 35.3163 36.149 35.5203 36.149H36.0508C36.418 36.149 36.5813 35.9846 36.7649 35.5739L44.6199 18.321C44.873 17.5582 45.2839 16.858 45.8255 16.2668C46.3671 15.6756 47.0271 15.2066 47.7619 14.8909V14.2748C47.7619 13.9667 47.5987 13.7407 47.4355 13.7407C46.0277 13.7407 45.1708 13.9872 44.2322 13.9872C42.6 13.9872 42.192 13.7407 40.519 13.7407C40.3557 13.7407 40.2129 13.9667 40.1925 14.2748V14.8909C40.9882 15.0553 41.7635 15.3839 41.7635 16.5957C41.7089 17.6924 41.4602 18.7706 41.029 19.7793L37.1321 28.8165H37.0301L32.1335 14.0488H30.7257L25.5638 28.4262H25.4618L21.9322 18.9988C21.5688 18.1789 21.3413 17.3047 21.2589 16.4108C21.2585 16.2149 21.298 16.021 21.3748 15.841C21.4517 15.661 21.5642 15.4987 21.7056 15.364C21.847 15.2294 22.0142 15.1252 22.197 15.058C22.3798 14.9908 22.5744 14.9619 22.7687 14.9731V14.3775C22.7687 14.0694 22.7687 13.8229 22.4626 13.8229C20.8304 13.8229 20.1367 14.0694 18.3821 14.0694C17.1783 14.0694 16.4642 14.0694 15.6685 13.9051C12.8734 11.9618 9.51035 11.0214 6.12011 11.235C2.81488 11.5636 -0.184306 13.864 -0.000681813 15.7947C0.162539 17.3556 1.22347 18.0334 3.08011 17.8486C5.69165 17.5816 5.36522 14.8499 9.99661 14.398C11.2662 14.2339 12.5563 14.4185 13.7303 14.932C15.155 15.7365 16.2098 17.0712 16.6683 18.6496L23.5644 35.6355C23.748 36.0463 23.9112 36.2106 24.2785 36.2106H24.8293C25.0334 36.2106 25.2374 36.2106 25.2986 36.2106C25.3885 36.0465 25.4636 35.8747 25.523 35.6971L30.1952 21.9975H30.2972L34.8266 35.6355Z" fill="#070909"/></g><defs><clipPath id="nl"><rect width="226" height="48" fill="white"/></clipPath></defs></svg>
+    <div class="nav-links"><a href="#strategy">Strategy</a><a href="#non-branded">Non-branded</a><a href="#branded">Branded</a><a href="#calendar">Calendar</a><a href="#next-steps">Next steps</a></div>
+    <div class="nav-badge"><span>MAR 2026</span>
+      <button class="btn-download" onclick="window.print()"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12H2.5A1.5 1.5 0 0 1 1 10.5v-4A1.5 1.5 0 0 1 2.5 5h11A1.5 1.5 0 0 1 15 6.5v4a1.5 1.5 0 0 1-1.5 1.5H12"/><rect x="4" y="10" width="8" height="5" rx=".75"/><path d="M4 5V1.75A.75.75 0 0 1 4.75 1h6.5a.75.75 0 0 1 .75.75V5"/></svg>Download PDF</button>
+    </div>
+  </div>
+</nav>
+
+<section id="hero"><div class="wrap">
+  <div class="hero-badge"><span></span> SEARCH DEMAND ANALYSIS</div>
+  <h1 class="hero-heading">InterContinental Sydney - <em>demand seasonality</em></h1>
+  <p class="hero-sub">Branded and non-branded search volume mapped across a calendar year. AU domestic vs global - identifying peak windows, untapped international demand, and opportunities to increase bottom-of-funnel investment.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><strong>Client</strong>InterContinental Sydney</div>
+    <div class="hero-meta-item"><strong>Data period</strong>Mar 2025 - Feb 2026</div>
+    <div class="hero-meta-item"><strong>Source</strong>Google Ads via DataForSEO</div>
+    <div class="hero-meta-item"><strong>Prepared by</strong>Webprofits</div>
+  </div>
+</div></section>
+
+<section id="strategy"><div class="wrap">
+  <span class="label">CURRENT STRATEGY</span>
+  <h2 class="section-title">How we're approaching paid search today</h2>
+  <p class="section-sub">Understanding the current approach and where the data tells us there's room to grow.</p>
+  <div class="strategy-grid">
+    <div class="strategy-card"><span class="strategy-card-tag active">Active</span><h4>Non-branded, domestic only</h4><p>We target non-branded keywords in AU. Budget constraints limit international targeting. We already own branded SERP real estate organically.</p></div>
+    <div class="strategy-card"><span class="strategy-card-tag paused">Excluded</span><h4>Low-converting terms paused</h4><p>Several non-branded terms have been excluded over time due to poor conversion rates. Budget is reallocated to higher-performing terms only.</p></div>
+    <div class="strategy-card"><span class="strategy-card-tag opportunity">Opportunity</span><h4>Increase BOFU budget in peak</h4><p>Data shows demand spikes 2 - 3x in Mar - Apr and secondary peaks in Jan and Jul. A case exists for increased bottom-of-funnel spend in these windows.</p></div>
+    <div class="strategy-card"><span class="strategy-card-tag test">Test</span><h4>Branded x international</h4><p>Global branded volume is +35% above AU. Testing branded campaigns to international audiences in peak months could unlock new, high-intent demand. This would require additional budget - it can't come from existing non-branded spend.</p></div>
+  </div>
+  <div class="context-note" style="margin-top:28px"><strong>Important Context</strong><br><br>Paid media for InterContinental properties cannot scale in the same way as a typical performance marketing program.<br><br>Unlike most businesses, we do not control the final reservation process. The booking engine and transaction data sit within IHG Global's infrastructure, which means we cannot optimise campaigns against the true end-of-funnel conversion event (completed bookings).<br><br>Because of this limitation:<ul style="margin:12px 0 0 20px;font-size:14px"><li style="margin-bottom:6px">We cannot point paid campaign optimisation directly to the final booking confirmation.</li><li style="margin-bottom:6px">This restricts our ability to use full-funnel performance signals for bidding and optimisation.</li><li>As a result, increasing paid media budget does not reliably translate into proportional revenue growth in the way it would for a business that owns its entire conversion funnel.</li></ul></div>
+</div></section>
+
+<section id="non-branded"><div class="wrap">
+  <span class="label">NON-BRANDED DEMAND</span>
+  <h2 class="section-title">Where we're competing for visibility</h2>
+  <p class="section-sub">Non-branded keywords are our primary paid search battleground. These are the terms where we fight for share of voice against every other luxury hotel in Sydney.</p>
+  <div class="kpi-grid">
+    <div class="kpi-card"><div class="value">89,160</div><div class="kpi-label">Peak month (Mar)</div><div class="change up">+142% vs trough</div></div>
+    <div class="kpi-card"><div class="value">74,580</div><div class="kpi-label">2nd peak (Apr)</div><div class="change up">+103% vs trough</div></div>
+    <div class="kpi-card"><div class="value">36,810</div><div class="kpi-label">Trough (Jun)</div><div class="change flat">Lowest demand</div></div>
+    <div class="kpi-card"><div class="value">45,550</div><div class="kpi-label">Summer (Jan)</div><div class="change up">+24% vs trough</div></div>
+    <div class="kpi-card"><div class="value">43,810</div><div class="kpi-label">School hols (Jul)</div><div class="change up">+19% vs trough</div></div>
+  </div>
+  <div class="chart-row"><div class="chart-card full"><h4>Non-branded search demand by month</h4><div class="chart-sub">AU domestic vs global - the gap represents untapped international demand</div><div class="chart-wrap tall"><canvas id="nbDemandChart"></canvas></div></div></div>
+  <div class="chart-row">
+    <div class="chart-card"><h4>Top keywords by month (AU)</h4><div class="chart-sub">Stacked area showing keyword contribution to total demand</div><div class="chart-wrap tall"><canvas id="nbStackedChart"></canvas></div></div>
+    <div class="chart-card"><h4>Non-branded international uplift % by month</h4><div class="chart-sub">Global demand above AU - currently untargeted</div><div class="chart-wrap tall"><canvas id="nbUpliftChart"></canvas></div></div>
+  </div>
+  <div class="tab-nav" id="nbTabNav"></div><div id="nbTabContent"></div>
+  <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:16px;padding:14px 22px;background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--r-md)">
+    <div style="font-size:13px;color:var(--text-secondary)"><strong style="color:var(--wp)">AU</strong> — Search volume from Australia only</div>
+    <div style="font-size:13px;color:var(--text-secondary)"><strong style="color:var(--blue)">Global</strong> — Search volume from all countries worldwide (including AU)</div>
+    <div style="font-size:13px;color:var(--text-secondary)"><strong style="color:var(--text-primary)">International</strong> — Global minus AU; demand from outside Australia</div>
+  </div>
+</div></section>
+
+<section id="branded"><div class="wrap">
+  <span class="label">BRANDED SEARCH</span>
+  <h2 class="section-title">We own this organically - but the international gap is real</h2>
+  <p class="section-sub">We don't run branded paid. We already dominate branded SERPs organically and can't justify the budget. But global branded volume tells a different story.</p>
+  <div class="kpi-grid">
+    <div class="kpi-card"><div class="value">66,540</div><div class="kpi-label">Peak month (Mar)</div><div class="change up">+142% vs trough</div></div>
+    <div class="kpi-card"><div class="value">51,920</div><div class="kpi-label">2nd peak (Apr)</div><div class="change up">+89% vs trough</div></div>
+    <div class="kpi-card"><div class="value">27,450</div><div class="kpi-label">Trough (Feb)</div><div class="change flat">Lowest demand</div></div>
+    <div class="kpi-card"><div class="value">34,310</div><div class="kpi-label">Summer (Jan)</div><div class="change up">+25% vs trough</div></div>
+    <div class="kpi-card"><div class="value">38,410</div><div class="kpi-label">School hols (Jul)</div><div class="change up">+40% vs trough</div></div>
+  </div>
+  <div class="chart-row"><div class="chart-card full"><h4>Branded search demand by month</h4><div class="chart-sub">AU domestic vs global - the gap represents untapped international demand</div><div class="chart-wrap tall"><canvas id="brandedDemandChart"></canvas></div></div></div>
+  <div class="chart-row">
+    <div class="chart-card"><h4>Top branded keywords by month (AU)</h4><div class="chart-sub">Stacked area showing keyword contribution to total branded demand</div><div class="chart-wrap tall"><canvas id="brStackedChart"></canvas></div></div>
+    <div class="chart-card"><h4>Branded international uplift % by month</h4><div class="chart-sub">Global branded demand above AU - high-intent international travellers</div><div class="chart-wrap tall"><canvas id="brUpliftChart"></canvas></div></div>
+  </div>
+  <div class="insight-row">
+    <div class="insight-card"><h4>Why we don't run branded paid</h4><p>InterContinental Sydney owns the branded SERP. With limited budget, every dollar is better spent on non-branded terms where we compete for visibility. Branded CPC is low ($1.55 - $2.26) but the opportunity cost of diverting budget is too high.</p></div>
+    <div class="insight-card" style="border-left-color:var(--wp)"><h4>The international branded opportunity</h4><p>Global branded search is <strong>+35% above AU</strong> on average, and <strong>+55% in March</strong>. International travellers searching "intercontinental sydney" are high-intent bookers.</p><ul><li><strong>Mar:</strong> 103,490 global vs 66,540 AU (+55%)</li><li><strong>Oct:</strong> 51,270 global vs 36,550 AU (+40%)</li><li><strong>Sep:</strong> 42,030 global vs 29,580 AU (+42%)</li></ul></div>
+  </div>
+  <div class="tab-nav" id="brTabNav"></div><div id="brTabContent"></div>
+  <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:16px;padding:14px 22px;background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--r-md)">
+    <div style="font-size:13px;color:var(--text-secondary)"><strong style="color:var(--wp)">AU</strong> — Search volume from Australia only</div>
+    <div style="font-size:13px;color:var(--text-secondary)"><strong style="color:var(--blue)">Global</strong> — Search volume from all countries worldwide (including AU)</div>
+    <div style="font-size:13px;color:var(--text-secondary)"><strong style="color:var(--text-primary)">International</strong> — Global minus AU; demand from outside Australia</div>
+  </div>
+</div></section>
+
+<section id="calendar"><div class="wrap">
+  <span class="label">SEASONAL CALENDAR</span>
+  <h2 class="section-title">Demand windows mapped to activations</h2>
+  <p class="section-sub">Non-branded AU demand overlaid with known seasonal activations and recommended campaign windows.</p>
+  <div class="chart-card full" style="margin:28px 0"><h4>Non-branded AU demand with campaign activation overlay</h4><div class="chart-sub">Red = peak season, green = activation windows, blue = baseline</div><div class="chart-wrap tall"><canvas id="calendarChart"></canvas></div></div>
+  <div class="context-note"><strong>Note:</strong> We launch seasonal campaigns when there are specific activations (NYE, Vivid, etc). The data shows we could find new tests and seek an increase in budget across the bottom of the funnel in the coming months - particularly in the Mar - Apr peak where demand is 2 - 3x baseline.</div>
+</div></section>
+
+<section id="next-steps"><div class="wrap">
+  <span class="label">NEXT STEPS</span>
+  <h2 class="section-title">Recommendations and test opportunities</h2>
+  <p class="section-sub">Based on the demand seasonality data, here's where we see the strongest case for incremental investment and testing.</p>
+  <div class="next-grid">
+    <div class="next-card"><div class="priority high">HIGH PRIORITY</div><h4>Scale non-branded in Mar - Apr</h4><p>Demand doubles in March. Increase budget and bid caps on converting non-branded terms during peak to capture maximum share of voice when intent is highest.</p><div class="meta">Window: Feb - Apr ramp<br><strong>163,740 searches/mo AU addressable</strong></div></div>
+    <div class="next-card"><div class="priority high">HIGH PRIORITY</div><h4>January summer burst</h4><p>January shows a strong secondary peak at 45,550 AU. Align with NYE and summer holiday demand. Launch campaigns late December for January capture.</p><div class="meta">Window: Late Dec - Jan<br><strong>45,550 searches/mo AU addressable</strong></div></div>
+    <div class="next-card"><div class="priority high">HIGH PRIORITY</div><h4>July school holiday push</h4><p>July uptick to 43,810 AU. Winter school holidays and Vivid Sydney drive demand. Increase bids on "hotel sydney harbour" and "5 star hotel sydney".</p><div class="meta">Window: Jun - Jul<br><strong>43,810 searches/mo AU addressable</strong></div></div>
+    <div class="next-card"><div class="priority medium">TEST</div><h4>Branded international (Mar)</h4><p>Global branded is +55% above AU in March. Test branded campaigns targeting UK, US, and APAC markets.</p><div class="meta">Test window: Feb - Apr<br><strong>~37,000 incremental international searches</strong></div></div>
+    <div class="next-card"><div class="priority medium">TEST</div><h4>Branded international (Oct)</h4><p>October shows the 2nd highest global uplift for branded (+40%). Spring in Sydney appeals to northern hemisphere travellers heading into their winter.</p><div class="meta">Test window: Sep - Nov<br><strong>~14,700 incremental international searches</strong></div></div>
+    <div class="next-card"><div class="priority medium">TEST</div><h4>Re-test excluded non-branded</h4><p>Keywords excluded for poor conversion should be re-tested during peak months only (Mar - Apr). Higher intent during peak may shift conversion economics.</p><div class="meta">Test window: Mar - Apr only<br><strong>Use limited daily budgets with conversion caps</strong></div></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap"><p><em>"We believe there's always a smarter, faster + better way of doing things"</em></p><p style="margin-top:8px;font-size:12px">&copy; 2006 - 2026 Webprofits Pty Ltd</p></div></footer>
+
+<script>
+const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const nbAU={'hotel sydney harbour':[22200,18100,27100,22200,18100,18100,22200,22200,18100,18100,18100,18100],'best hotels sydney':[5400,4400,14800,14800,5400,5400,5400,5400,5400,5400,4400,4400],'5 star hotel sydney':[3600,2900,12100,9900,3600,2900,3600,2900,2900,2900,2900,2900],'five star hotel sydney':[3600,2900,12100,9900,3600,2900,3600,2900,2900,2900,2900,2900],'boutique hotel sydney':[5400,5400,12100,8100,5400,4400,5400,5400,5400,5400,5400,5400],'luxury hotel sydney':[2400,1900,4400,3600,1300,1300,1300,1900,1600,1900,1900,1600],'hotel near circular quay':[1600,1000,3600,3600,1000,880,1300,1000,1000,1300,1000,1000],'luxury accommodation sydney':[390,320,1000,880,390,320,320,260,320,260,320,320],'5 star accommodation sydney':[170,140,720,480,170,140,170,140,170,210,170,110],'hotel circular quay sydney':[480,390,590,320,110,210,260,210,260,320,390,390],'best luxury hotel sydney':[170,170,390,590,210,170,170,170,140,170,140,140],'luxury hotels sydney cbd':[140,90,260,210,70,90,90,90,90,110,90,50]};
+const nbGlobal={'hotel sydney harbour':[27100,27100,40500,33100,27100,22200,27100,33100,27100,27100,27100,27100],'best hotels sydney':[9900,8100,27100,22200,9900,8100,9900,9900,8100,9900,8100,8100],'5 star hotel sydney':[5400,4400,18100,14800,5400,5400,5400,5400,5400,5400,4400,4400],'five star hotel sydney':[5400,4400,18100,14800,5400,5400,5400,5400,5400,5400,4400,4400],'boutique hotel sydney':[8100,6600,14800,12100,8100,6600,8100,8100,8100,8100,6600,6600],'luxury hotel sydney':[4400,2900,8100,6600,2400,2900,3600,3600,2900,2900,3600,2900],'hotel near circular quay':[1900,1600,5400,4400,1600,1300,1600,1600,1600,1600,1300,1300],'luxury accommodation sydney':[390,390,1300,880,480,390,390,320,320,320,390,320],'5 star accommodation sydney':[210,170,880,590,170,170,170,170,170,210,170,110],'hotel circular quay sydney':[590,480,720,390,170,260,320,260,320,390,390,480],'best luxury hotel sydney':[480,320,1000,880,390,390,320,320,390,390,320,320],'luxury hotels sydney cbd':[170,90,320,210,70,90,110,90,110,140,90,70]};
+const brAU={'intercontinental sydney':[22200,18100,49500,40500,22200,18100,27100,22200,18100,22200,22200,18100],'intercontinental double bay':[9900,9900,14800,9900,9900,9900,9900,9900,9900,12100,12100,9900],'intercontinental sydney double bay':[1900,1300,1900,1300,1300,1000,1000,1600,1300,1900,1900,1300],'intercontinental sydney cbd':[140,210,170,110,140,110,210,110,170,210,170,140],'intercontinental sydney hotel':[170,170,170,110,140,90,140,170,110,140,170,140]};
+const brGlobal={'intercontinental sydney':[27100,27100,74000,60500,33100,27100,33100,27100,27100,33100,27100,27100],'intercontinental double bay':[12100,9900,22200,12100,9900,9900,9900,9900,12100,14800,12100,9900],'intercontinental sydney double bay':[2900,2400,6600,2400,2400,1900,1900,2400,2400,2900,2900,2400],'intercontinental sydney cbd':[170,210,210,140,170,140,260,110,170,210,210,140],'intercontinental sydney hotel':[320,320,480,320,260,210,320,320,260,260,390,260]};
+function sumByMonth(d){return months.map((_,i)=>Object.values(d).reduce((s,a)=>s+a[i],0))}
+const nbAUTotals=sumByMonth(nbAU),nbGlobalTotals=sumByMonth(nbGlobal),brAUTotals=sumByMonth(brAU),brGlobalTotals=sumByMonth(brGlobal);
+Chart.defaults.color='#888888';Chart.defaults.borderColor='#E0DEDC';Chart.defaults.font.family="'Poppins',system-ui,sans-serif";Chart.defaults.font.weight=500;
+new Chart(document.getElementById('nbDemandChart'),{type:'bar',data:{labels:months,datasets:[{label:'AU',data:nbAUTotals,backgroundColor:'rgba(234,70,72,0.65)',borderRadius:6,barPercentage:0.65,categoryPercentage:0.7},{label:'Global',data:nbGlobalTotals,backgroundColor:'rgba(29,78,216,0.25)',borderRadius:6,barPercentage:0.65,categoryPercentage:0.7}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{font:{size:12,weight:600},usePointStyle:true,pointStyle:'rectRounded'}},tooltip:{callbacks:{afterBody:items=>{const i=items[0].dataIndex;return`International uplift: +${((nbGlobalTotals[i]-nbAUTotals[i])/nbAUTotals[i]*100).toFixed(0)}%`}}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>v>=1000?(v/1000)+'k':v,font:{size:11}},grid:{color:'#E0DEDC'}},x:{grid:{display:false},ticks:{font:{size:11,weight:600}}}}}});
+const topNB=['hotel sydney harbour','best hotels sydney','5 star hotel sydney','boutique hotel sydney','luxury hotel sydney','hotel near circular quay'];
+const stackCols=['rgba(234,70,72,0.5)','rgba(29,78,216,0.5)','rgba(4,120,87,0.45)','rgba(180,83,9,0.45)','rgba(245,158,11,0.45)','rgba(136,136,136,0.35)'];
+new Chart(document.getElementById('nbStackedChart'),{type:'line',data:{labels:months,datasets:topNB.map((kw,i)=>({label:kw,data:nbAU[kw],fill:true,backgroundColor:stackCols[i],borderColor:stackCols[i].replace(/0\.\d+\)/,'1)'),borderWidth:1.5,tension:0.3,pointRadius:2}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:10}}}},scales:{y:{stacked:true,beginAtZero:true,ticks:{callback:v=>v>=1000?(v/1000)+'k':v,font:{size:11}},grid:{color:'#E0DEDC'}},x:{grid:{display:false},ticks:{font:{size:11,weight:600}}}}}});
+const nbUp=months.map((_,i)=>((nbGlobalTotals[i]-nbAUTotals[i])/nbAUTotals[i]*100).toFixed(1));
+const brUp=months.map((_,i)=>((brGlobalTotals[i]-brAUTotals[i])/brAUTotals[i]*100).toFixed(1));
+new Chart(document.getElementById('nbUpliftChart'),{type:'line',data:{labels:months,datasets:[{label:'Non-branded uplift',data:nbUp,borderColor:'#EA4648',backgroundColor:'rgba(234,70,72,0.06)',fill:true,tension:0.3,pointRadius:4,pointBackgroundColor:'#EA4648',borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:item=>'Non-branded uplift: +'+item.raw+'%'}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>'+'+v+'%',font:{size:11}},grid:{color:'#E0DEDC'}},x:{grid:{display:false},ticks:{font:{size:11,weight:600}}}}}});
+new Chart(document.getElementById('brandedDemandChart'),{type:'bar',data:{labels:months,datasets:[{label:'AU',data:brAUTotals,backgroundColor:'rgba(234,70,72,0.65)',borderRadius:6,barPercentage:0.65,categoryPercentage:0.7},{label:'Global',data:brGlobalTotals,backgroundColor:'rgba(29,78,216,0.25)',borderRadius:6,barPercentage:0.65,categoryPercentage:0.7}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{font:{size:12,weight:600},usePointStyle:true,pointStyle:'rectRounded'}},tooltip:{callbacks:{afterBody:items=>{const i=items[0].dataIndex;return`International uplift: +${((brGlobalTotals[i]-brAUTotals[i])/brAUTotals[i]*100).toFixed(0)}%`}}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>v>=1000?(v/1000)+'k':v,font:{size:11}},grid:{color:'#E0DEDC'}},x:{grid:{display:false},ticks:{font:{size:11,weight:600}}}}}});
+const topBR=Object.keys(brAU);
+new Chart(document.getElementById('brStackedChart'),{type:'line',data:{labels:months,datasets:topBR.map((kw,i)=>({label:kw,data:brAU[kw],fill:true,backgroundColor:stackCols[i],borderColor:stackCols[i].replace(/0\.\d+\)/,'1)'),borderWidth:1.5,tension:0.3,pointRadius:2}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:10}}}},scales:{y:{stacked:true,beginAtZero:true,ticks:{callback:v=>v>=1000?(v/1000)+'k':v,font:{size:11}},grid:{color:'#E0DEDC'}},x:{grid:{display:false},ticks:{font:{size:11,weight:600}}}}}});
+new Chart(document.getElementById('brUpliftChart'),{type:'line',data:{labels:months,datasets:[{label:'Branded uplift',data:brUp,borderColor:'#1D4ED8',backgroundColor:'rgba(29,78,216,0.06)',fill:true,tension:0.3,pointRadius:4,pointBackgroundColor:'#1D4ED8',borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:item=>'Branded uplift: +'+item.raw+'%'}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>'+'+v+'%',font:{size:11}},grid:{color:'#E0DEDC'}},x:{grid:{display:false},ticks:{font:{size:11,weight:600}}}}}});
+new Chart(document.getElementById('calendarChart'),{type:'bar',data:{labels:months,datasets:[{label:'Non-branded AU demand',data:nbAUTotals,backgroundColor:months.map(m=>{if(m==='Mar'||m==='Apr')return'rgba(234,70,72,0.7)';if(m==='Jan'||m==='Jul')return'rgba(4,120,87,0.55)';return'rgba(29,78,216,0.3)'}),borderRadius:6,barPercentage:0.55}]},plugins:[{id:'labels',afterDraw(chart){const ctx=chart.ctx,x=chart.scales.x,y=chart.scales.y;const ann={0:{l:'NYE / SUMMER',s:'Holiday demand spike',c:'#047857'},1:{l:'RECOVERY',s:'Post-summer lull',c:'#1D4ED8'},2:{l:'PEAK SEASON',s:'Easter + autumn travel',c:'#EA4648'},3:{l:'PEAK SEASON',s:'Easter + school hols',c:'#EA4648'},6:{l:'VIVID SYDNEY',s:'Seasonal activation',c:'#047857'},7:{l:'MID-YEAR',s:'Vivid tail + winter',c:'#1D4ED8'}};Object.entries(ann).forEach(([i,a])=>{const px=x.getPixelForTick(+i),py=y.getPixelForValue(nbAUTotals[+i]);ctx.save();ctx.fillStyle=a.c;ctx.font="bold 9px Poppins";ctx.textAlign='center';ctx.fillText(a.l,px,py-22);ctx.fillStyle='#888';ctx.font="9px Poppins";ctx.fillText(a.s,px,py-10);ctx.restore()})}}],options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:110000,ticks:{callback:v=>v>=1000?(v/1000)+'k':v,font:{size:11}},grid:{color:'#E0DEDC'}},x:{grid:{display:false},ticks:{font:{size:11,weight:600}}}}}});
+function buildTabs(cId,nId,auD,glD,pfx){const nav=document.getElementById(nId),cont=document.getElementById(cId);const mO=[1,2,3,4,5,6,7,8,9,10,11,12],mN={1:'January',2:'February',3:'March',4:'April',5:'May',6:'June',7:'July',8:'August',9:'September',10:'October',11:'November',12:'December'},mY={1:'2026',2:'2026',3:'2025',4:'2025',5:'2025',6:'2025',7:'2025',8:'2025',9:'2025',10:'2025',11:'2025',12:'2025'};const kws=Object.keys(auD);mO.forEach((m,idx)=>{const btn=document.createElement('button');btn.className='tab-btn'+(idx===0?' active':'');btn.textContent=months[idx];btn.onclick=()=>{nav.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');cont.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.getElementById(`${pfx}-m-${m}`).classList.add('active')};nav.appendChild(btn);const panel=document.createElement('div');panel.className='tab-content'+(idx===0?' active':'');panel.id=`${pfx}-m-${m}`;const sorted=[...kws].sort((a,b)=>(auD[b][idx]||0)-(auD[a][idx]||0));let auT=0,glT=0,rows='';sorted.forEach(kw=>{const au=auD[kw][idx]||0,gl=glD[kw]?glD[kw][idx]||0:0,intl=gl-au;const up=au>0?((intl/au)*100).toFixed(0):'-';auT+=au;glT+=gl;const maxAU=Math.max(...auD[kw]),ratio=maxAU>0?au/maxAU:0;let heat='heat-1';if(ratio>=0.9)heat='heat-5';else if(ratio>=0.7)heat='heat-4';else if(ratio>=0.5)heat='heat-3';else if(ratio>=0.3)heat='heat-2';rows+=`<tr><td>${kw}</td><td class="num ${heat}">${au.toLocaleString()}</td><td class="num">${gl.toLocaleString()}</td><td class="num">${intl.toLocaleString()}</td><td class="num">${up==='-'?'-':'+'+up+'%'}</td></tr>`});const tI=glT-auT,tU=auT>0?((tI/auT)*100).toFixed(0):'-';panel.innerHTML=`<div class="table-card"><table><thead><tr><th>Keyword</th><th class="num">AU</th><th class="num">Global</th><th class="num">International</th><th class="num">Uplift</th></tr></thead><tbody>${rows}<tr class="total"><td>TOTAL - ${mN[m]} ${mY[m]}</td><td class="num">${auT.toLocaleString()}</td><td class="num">${glT.toLocaleString()}</td><td class="num">${tI.toLocaleString()}</td><td class="num">+${tU}%</td></tr></tbody></table></div>`;cont.appendChild(panel)})}
+buildTabs('nbTabContent','nbTabNav',nbAU,nbGlobal,'nb');
+buildTabs('brTabContent','brTabNav',brAU,brGlobal,'br');
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Hotel",
+  "@id": "https://theurbannewtown.com.au/#hotel",
+  "name": "The Urban Newtown",
+  "alternateName": "The Urban Newtown Hotel",
+  "description": "Boutique, independently-owned hotel on Enmore Rd in Newtown. Pet-friendly, a block from the Enmore Theatre, a short walk from RPA Hospital and Sydney University, and 10 minutes from Sydney CBD.",
+  "url": "https://theurbannewtown.com.au/",
+  "image": [
+    "https://theurbannewtown.com.au/bannerlatest6.jpg",
+    "https://theurbannewtown.com.au/galleryN1.jpg",
+    "https://theurbannewtown.com.au/galleryN2.jpg",
+    "https://theurbannewtown.com.au/galleryN3.jpg"
+  ],
+  "logo": "https://theurbannewtown.com.au/logo.png",
+  "telephone": "+61437040578",
+  "email": "stay@theurbannewtown.com.au",
+  "priceRange": "$$",
+  "currenciesAccepted": "AUD",
+  "paymentAccepted": "Cash, Credit Card, EFTPOS",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "52-60 Enmore Rd",
+    "addressLocality": "Newtown",
+    "addressRegion": "NSW",
+    "postalCode": "2042",
+    "addressCountry": "AU"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -33.898800,
+    "longitude": 151.176320
+  },
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=52-60+Enmore+Rd+Newtown+NSW+2042",
+  "checkinTime": "12:30",
+  "checkoutTime": "11:30",
+  "petsAllowed": true,
+  "numberOfRooms": "[ROOM_COUNT]",
+  "smokingAllowed": false,
+  "amenityFeature": [
+    { "@type": "LocationFeatureSpecification", "name": "Free Wi-Fi", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Pet-friendly rooms", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "On-site parking (book direct only)", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Air conditioning", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Early check-in (12:30 pm)", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Late checkout (11:30 am)", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Same-day cancellation (by 10 am)", "value": true }
+  ],
+  "availableLanguage": ["en-AU"],
+  "areaServed": [
+    { "@type": "Place", "name": "Newtown, Sydney" },
+    { "@type": "Place", "name": "Enmore, Sydney" },
+    { "@type": "Place", "name": "Sydney CBD" }
+  ],
+  "identifier": [
+    { "@type": "PropertyValue", "propertyID": "ABN", "value": "87 310 726 416" }
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.0",
+    "reviewCount": "670",
+    "bestRating": "5",
+    "worstRating": "1",
+    "_note": "Populate from TripAdvisor: https://www.tripadvisor.com/Hotel_Review-g8572746-d7103854-Reviews-The_Urban_Newtown-Newtown_New_South_Wales.html"
+  }
+}

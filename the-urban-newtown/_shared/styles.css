@@ -1,0 +1,739 @@
+/* ============================================================
+   THE URBAN NEWTOWN — Global Stylesheet
+   Design: clean industrial, Newtown-bohemian, mobile-first
+   ============================================================ */
+
+/* --- Reset & Base --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Palette — derived from current site + industrial brief */
+  --color-bg:        #ffffff;
+  --color-bg-dark:   #1a1a1a;
+  --color-bg-warm:   #f5f3f0;
+  --color-bg-accent: #2c2c2c;
+  --color-text:      #333333;
+  --color-text-light:#666666;
+  --color-text-inv:  #ffffff;
+  --color-accent:    #c8a456;     /* warm brass — industrial lighting vibe */
+  --color-accent-dk: #a8863a;
+  --color-cta:       #d4412a;     /* punchy red — rebellious, Newtown energy */
+  --color-cta-hover: #b8351f;
+  --color-border:    #e0ddd8;
+  --color-star:      #f5a623;
+
+  /* Type — system stack, clean and fast */
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Spacing */
+  --space-xs:  0.5rem;
+  --space-sm:  1rem;
+  --space-md:  2rem;
+  --space-lg:  4rem;
+  --space-xl:  6rem;
+
+  /* Widths */
+  --max-w:     1200px;
+  --max-w-narrow: 800px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--color-cta); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--color-cta-hover); }
+address { font-style: normal; }
+
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--space-md); }
+.container-narrow { max-width: var(--max-w-narrow); margin: 0 auto; padding: 0 var(--space-md); }
+
+
+/* --- Topbar (persistent Book Direct) --- */
+.topbar {
+  background: var(--color-bg-dark);
+  color: var(--color-text-inv);
+  padding: 0.6rem var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  font-size: 0.875rem;
+  flex-wrap: wrap;
+}
+.topbar span { opacity: 0.85; }
+
+
+/* --- Buttons --- */
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+  text-decoration: none;
+  line-height: 1.3;
+}
+.btn-primary {
+  background: var(--color-cta);
+  color: #fff;
+  border-color: var(--color-cta);
+}
+.btn-primary:hover {
+  background: var(--color-cta-hover);
+  border-color: var(--color-cta-hover);
+  color: #fff;
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-inv);
+  border-color: rgba(255,255,255,0.4);
+}
+.btn-ghost:hover {
+  border-color: #fff;
+  color: #fff;
+}
+.btn-ghost-dark {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+.btn-ghost-dark:hover {
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
+.btn-lg {
+  padding: 0.9rem 2rem;
+  font-size: 1.0625rem;
+}
+
+
+/* --- Site Header / Nav --- */
+.site-header {
+  background: var(--color-bg);
+  padding: var(--space-sm) var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+}
+.brand img {
+  height: 55px;
+  width: auto;
+}
+.site-header nav {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.site-header nav a {
+  color: var(--color-text);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  transition: background 0.2s, color 0.2s;
+}
+.site-header nav a:hover,
+.site-header nav a[aria-current="page"] {
+  color: var(--color-cta);
+}
+
+/* Dropdown (Around the Hotel) */
+.nav-dropdown {
+  position: relative;
+}
+.nav-dropdown > button {
+  background: none;
+  border: none;
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 3px;
+  transition: color 0.2s;
+}
+.nav-dropdown > button:hover {
+  color: var(--color-cta);
+}
+.nav-dropdown > button::after {
+  content: '▾';
+  font-size: 0.7rem;
+  opacity: 0.6;
+}
+.nav-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  min-width: 260px;
+  z-index: 200;
+  padding: 0.5rem 0;
+}
+.nav-dropdown.open .nav-dropdown-menu {
+  display: block;
+}
+.nav-dropdown-menu a {
+  display: block;
+  padding: 0.55rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--color-text);
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.nav-dropdown-menu a:hover {
+  background: var(--color-bg-warm);
+  color: var(--color-cta);
+}
+.nav-dropdown-menu .coming-soon {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Mobile nav toggle */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--color-text);
+  padding: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .nav-toggle { display: block; }
+  .site-header nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    flex-direction: column;
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    z-index: 100;
+  }
+  .site-header nav.open { display: flex; }
+  .site-header nav a {
+    padding: 0.6rem 0;
+    font-size: 1rem;
+  }
+  /* Mobile dropdown — inline, no absolute positioning */
+  .nav-dropdown-menu {
+    position: static;
+    border: none;
+    box-shadow: none;
+    min-width: auto;
+    padding: 0 0 0 1rem;
+  }
+  .nav-dropdown.open .nav-dropdown-menu { display: block; }
+  .nav-dropdown-menu a {
+    padding: 0.4rem 0;
+  }
+}
+
+
+/* --- Breadcrumbs --- */
+.breadcrumbs {
+  padding: var(--space-xs) var(--space-md);
+  font-size: 0.8125rem;
+  color: var(--color-text-light);
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+.breadcrumbs a { color: var(--color-text-light); }
+.breadcrumbs a:hover { color: var(--color-cta); }
+
+
+/* --- Hero --- */
+.hero {
+  position: relative;
+  background: var(--color-bg-dark);
+  overflow: hidden;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+}
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.45;
+}
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-md) var(--space-lg);
+  color: var(--color-text-inv);
+}
+.hero h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: var(--space-sm);
+  max-width: 720px;
+}
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.1875rem);
+  line-height: 1.6;
+  max-width: 620px;
+  opacity: 0.9;
+  margin-bottom: var(--space-md);
+}
+
+
+/* --- Badge (e.g. "90 seconds on foot") --- */
+.badge {
+  display: inline-block;
+  background: var(--color-accent);
+  color: var(--color-bg-dark);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.35rem 0.9rem;
+  border-radius: 3px;
+  margin-bottom: var(--space-sm);
+}
+
+
+/* --- Trust Strip --- */
+.trust-strip {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  margin: var(--space-sm) 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.trust-strip .star { color: var(--color-star); }
+.hero .trust-strip { color: var(--color-text-inv); }
+
+
+/* --- Booking Form (hero embedded) --- */
+.datepicker {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+  align-items: end;
+  margin-bottom: var(--space-sm);
+  background: rgba(0,0,0,0.35);
+  padding: var(--space-sm);
+  border-radius: 6px;
+  max-width: 660px;
+}
+.datepicker label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.8);
+  gap: 0.25rem;
+}
+.datepicker input,
+.datepicker select {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 4px;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  font-size: 0.9375rem;
+  min-width: 130px;
+}
+.datepicker input:focus,
+.datepicker select:focus {
+  outline: 2px solid var(--color-accent);
+  border-color: var(--color-accent);
+}
+.datepicker .btn-primary {
+  align-self: end;
+}
+
+/* Date input colour-scheme for dark bg */
+.datepicker input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+
+/* --- Sections --- */
+section {
+  padding: var(--space-lg) 0;
+}
+section:nth-child(even) {
+  background: var(--color-bg-warm);
+}
+section > *:not(.hero-img):not(.hero-copy) {
+  max-width: var(--max-w);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+}
+
+section h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.375rem, 3vw, 2rem);
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+  line-height: 1.25;
+}
+section h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: var(--space-md) 0 var(--space-xs);
+}
+section p {
+  margin-bottom: var(--space-sm);
+  max-width: 720px;
+}
+section ul, section ol {
+  margin-bottom: var(--space-sm);
+  padding-left: 1.25rem;
+}
+section li {
+  margin-bottom: 0.4rem;
+}
+
+
+/* --- Perks List (5-point book direct strip) --- */
+.perks-list {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-sm);
+}
+.perks-list li {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-accent);
+  padding: var(--space-sm) var(--space-sm) var(--space-sm) calc(var(--space-sm) + 0.25rem);
+  border-radius: 4px;
+  font-size: 0.9375rem;
+  margin-bottom: 0;
+}
+.perks {
+  background: var(--color-bg-warm);
+}
+
+
+/* --- Feature / Amenity Icons Grid --- */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-md);
+  list-style: none;
+  padding-left: 0;
+}
+.features-grid li {
+  text-align: center;
+  margin-bottom: 0;
+}
+.features-grid img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  margin: 0 auto var(--space-xs);
+  border-radius: 50%;
+}
+.features-grid span {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+
+/* --- Gallery --- */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-xs);
+}
+.gallery img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 4px;
+  transition: transform 0.3s;
+}
+.gallery img:hover {
+  transform: scale(1.02);
+}
+
+
+/* --- Reviews Carousel --- */
+.review-carousel {
+  position: relative;
+  max-width: 720px;
+  overflow: hidden;
+}
+.review-track {
+  display: flex;
+  transition: transform 0.45s ease;
+}
+.review-slide {
+  min-width: 100%;
+  flex-shrink: 0;
+  padding-right: var(--space-md);
+}
+.review-slide blockquote {
+  border-left: 4px solid var(--color-accent);
+  padding: var(--space-sm) 0 var(--space-sm) var(--space-md);
+  margin: 0;
+}
+.review-slide blockquote p {
+  font-size: 1.0625rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--color-text);
+  margin-bottom: var(--space-xs);
+}
+.review-slide blockquote cite {
+  font-style: normal;
+  font-size: 0.875rem;
+  color: var(--color-text-light);
+  font-weight: 500;
+}
+
+/* Carousel controls */
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+.carousel-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 1.125rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.carousel-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.carousel-dots {
+  display: flex;
+  gap: 0.4rem;
+}
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-border);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  padding: 0;
+}
+.carousel-dot.active {
+  background: var(--color-accent);
+}
+
+/* Fallback: static reviews if JS disabled */
+.no-js .review-track {
+  flex-direction: column;
+}
+.no-js .review-slide {
+  min-width: auto;
+  margin-bottom: var(--space-md);
+}
+.no-js .carousel-controls { display: none; }
+
+
+/* --- CTA Section (dark) --- */
+.cta {
+  background: var(--color-bg-dark) !important;
+  color: var(--color-text-inv);
+  text-align: center;
+}
+.cta h2 {
+  color: var(--color-text-inv);
+}
+.cta .trust-strip {
+  color: var(--color-text-inv);
+  justify-content: center;
+}
+.cta .btn-primary { margin-right: var(--space-sm); }
+.cta a.btn { margin-bottom: var(--space-xs); }
+
+
+/* --- NAP (Contact page) --- */
+.nap address {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  margin-bottom: var(--space-md);
+}
+.nap address strong { font-size: 1.25rem; }
+
+
+/* --- Map --- */
+.map-section iframe {
+  width: 100%;
+  height: 400px;
+  border: 0;
+  border-radius: 6px;
+  margin-bottom: var(--space-sm);
+}
+
+
+/* --- Directions --- */
+.directions h3 { color: var(--color-accent-dk); }
+
+
+/* --- Landmarks list --- */
+.landmarks {
+  list-style: none;
+  padding-left: 0;
+}
+.landmarks li {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.landmarks li:last-child { border-bottom: none; }
+.landmarks a {
+  font-weight: 500;
+}
+
+
+/* --- FAQ (Enmore page) --- */
+.faq details {
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-sm) 0;
+}
+.faq summary {
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.faq summary::after {
+  content: '+';
+  font-size: 1.25rem;
+  font-weight: 300;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+  margin-left: var(--space-sm);
+}
+.faq details[open] summary::after {
+  content: '−';
+}
+.faq details p {
+  padding-top: var(--space-xs);
+  color: var(--color-text-light);
+}
+
+
+/* --- Footer --- */
+.site-footer {
+  background: var(--color-bg-dark);
+  color: rgba(255,255,255,0.75);
+  padding: var(--space-lg) var(--space-md) var(--space-md);
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+.site-footer .footer-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+.site-footer address strong {
+  color: #fff;
+  font-size: 1rem;
+}
+.site-footer a {
+  color: rgba(255,255,255,0.75);
+}
+.site-footer a:hover { color: #fff; }
+.site-footer nav {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.site-footer .copy {
+  width: 100%;
+  text-align: center;
+  margin-top: var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.8125rem;
+  opacity: 0.6;
+}
+
+
+/* --- Utilities --- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+.text-center { text-align: center; }
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mb-sm { margin-bottom: var(--space-sm); }
+.mb-md { margin-bottom: var(--space-md); }
+
+/* Print */
+@media print {
+  .topbar, .site-header nav, .btn { display: none; }
+  .hero { min-height: auto; background: none; }
+  .hero-img { display: none; }
+  .hero-copy { color: #000; padding: var(--space-sm) 0; }
+}
